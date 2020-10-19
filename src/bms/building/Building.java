@@ -6,6 +6,7 @@ import bms.exceptions.FloorTooSmallException;
 import bms.exceptions.NoFloorBelowException;
 import bms.floor.Floor;
 import bms.room.RoomType;
+import bms.util.Encodable;
 import bms.util.FireDrill;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.List;
  * the building to be evacuated.
  * @ass1
  */
-public class Building implements FireDrill {
+public class Building implements FireDrill, Encodable {
 
     /**
      * The name of the building.
@@ -211,5 +212,23 @@ public class Building implements FireDrill {
     public String toString() {
         return String.format("Building: name=\"%s\", floors=%d",
                 this.name, this.floors.size());
+    }
+
+
+    /**
+     * Returns the machine-readable string representation of this building and all of its floors, rooms and sensors.
+     *
+     * @return encoded String representation of this building
+     */
+    @Override
+    public String encode() {
+
+        ArrayList<String> floorEncodeArray = new ArrayList<>();
+
+        this.floors.forEach( (floor) -> floorEncodeArray.add(floor.encode()) );
+
+        return this.getName()+System.lineSeparator()
+                +this.floors.size()+System.lineSeparator()
+                +floorEncodeArray;
     }
 }
