@@ -10,6 +10,7 @@ import bms.util.Encodable;
 import bms.util.FireDrill;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -227,8 +228,12 @@ public class Building implements FireDrill, Encodable {
 
         this.floors.forEach( (floor) -> floorEncodeArray.add(floor.encode()) );
 
+        String floorEncodeArrayStr = Arrays.toString(floorEncodeArray.toArray())
+                .replace("[","").replace("]", "");
+
+
         return this.getName()+System.lineSeparator()
                 +this.floors.size()+System.lineSeparator()
-                +floorEncodeArray;
+                +floorEncodeArrayStr;
     }
 }

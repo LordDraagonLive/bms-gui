@@ -300,6 +300,6 @@ public class Floor implements FireDrill,Encodable {
                 .replace("[","").replace("]", "");
 
         return this.getFloorNumber()+":"+this.getWidth()+":"+this.getWidth()+":"+this.getRooms().size()
-                +System.lineSeparator()+roomEncodeArrayStr+System.lineSeparator();
+                +System.lineSeparator()+roomEncodeArrayStr;
     }
 }

@@ -16,29 +16,20 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64075b64-1985-4741-a8d8-905ed47ff2ad" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/bms/exceptions/FileFormatException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/floor/MaintenanceSchedule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/hazardevaluation/HazardEvaluator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/hazardevaluation/RuleBasedHazardEvaluator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/hazardevaluation/WeightingBasedHazardEvaluator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/room/RoomState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/sensors/ComfortSensor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/util/Encodable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/bms/util/StudyRoomRecommender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/bms/building/BuildingInitialiser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bms/building/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/building/Building.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bms/floor/Floor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/floor/Floor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/room/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/sensors/CarbonDioxideSensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/CarbonDioxideSensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/sensors/NoiseSensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/NoiseSensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/sensors/OccupancySensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/OccupancySensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/sensors/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/Sensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/sensors/TemperatureSensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/TemperatureSensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/sensors/TimedSensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/TimedSensor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +91,20 @@
       <workItem from="1602993012661" duration="597000" />
       <workItem from="1602996807324" duration="7590000" />
       <workItem from="1603017087081" duration="4336000" />
+      <workItem from="1603120087594" duration="2177000" />
+      <workItem from="1603128981002" duration="1502000" />
+      <workItem from="1603167853770" duration="973000" />
+      <workItem from="1603171214715" duration="256000" />
+      <workItem from="1603213809052" duration="4168000" />
     </task>
+    <task id="LOCAL-00001" summary="Added Missing functions">
+      <created>1603120174779</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603120174779</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,12 +115,28 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Missing functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Missing functions" />
   </component>
   <component name="WindowStateProjectService">
     <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1603020386225">
@@ -143,6 +163,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="249" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1602686846538" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1603120232393">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1603120232393" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1603017455200">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
