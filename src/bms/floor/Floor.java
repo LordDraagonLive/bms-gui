@@ -4,9 +4,11 @@ import bms.exceptions.DuplicateRoomException;
 import bms.exceptions.InsufficientSpaceException;
 import bms.room.Room;
 import bms.room.RoomType;
+import bms.util.Encodable;
 import bms.util.FireDrill;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  * evacuated.
  * @ass1
  */
-public class Floor implements FireDrill {
+public class Floor implements FireDrill,Encodable {
     /**
      * Unique floor number for this floor. Corresponds to how many floors above
      * ground floor (inclusive).
@@ -280,5 +282,24 @@ public class Floor implements FireDrill {
                 this.width,
                 this.length,
                 this.rooms.size());
+    }
+
+    /**
+     * Returns the String representation of the current state of this object.
+     *
+     * @return encoded String representation
+     */
+    @Override
+    public String encode() {
+        // need more formatting
+
+        ArrayList<String> roomEncodeArray = new ArrayList<>();
+
+        this.rooms.forEach( (room) -> roomEncodeArray.add(room.encode()) );
+        String roomEncodeArrayStr = Arrays.toString(roomEncodeArray.toArray())
+                .replace("[","").replace("]", "");
+
+        return this.getFloorNumber()+":"+this.getWidth()+":"+this.getWidth()+":"+this.getRooms().size()
+                +System.lineSeparator()+roomEncodeArrayStr;
     }
 }

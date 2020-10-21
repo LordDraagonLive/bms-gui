@@ -4,7 +4,7 @@ package bms.sensors;
  * A sensor that measures ambient temperature in a room.
  * @ass1
  */
-public class TemperatureSensor extends TimedSensor implements HazardSensor {
+public class TemperatureSensor extends TimedSensor implements HazardSensor, ComfortSensor {
 
     /**
      * Creates a new temperature sensor with the given sensor readings and
@@ -39,6 +39,40 @@ public class TemperatureSensor extends TimedSensor implements HazardSensor {
             return 100;
         }
         return 0;
+    }
+
+    /**
+     * Returns the comfort level in a location as detected by this sensor (as a percentage).
+     * A value of 0 indicates demonstrates very low comfort, and a value of 100 indicates very high comfort.
+     *
+     * @return level of comfort at sensor location, 0 to 100
+     */
+    @Override
+    public int getComfortLevel() {
+        if (this.getCurrentReading() >= 20 && this.getCurrentReading() <= 26) {
+            return 100;
+        }else if (this.getCurrentReading() == 27 || this.getCurrentReading() == 19){
+            return 80;
+        }else if(this.getCurrentReading() == 28 || this.getCurrentReading() == 18){
+            return 60;
+        }else if(this.getCurrentReading() == 29 || this.getCurrentReading() == 17){
+            return 40;
+        }else if(this.getCurrentReading() == 30 || this.getCurrentReading() == 16){
+            return 20;
+        }
+        return 0;
+    }
+
+    /**
+     * Returns the String representation of the current state of this object.
+     *
+     * @return encoded String representation
+     */
+    @Override
+    public String encode() {
+        return String.format(
+                "TemperatureSensor:%s",
+                super.encode());
     }
 
     /**

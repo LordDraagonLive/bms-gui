@@ -1,5 +1,7 @@
 package bms.sensors;
 
+import bms.util.Encodable;
+
 /**
  * Represents a device that is used to monitor and report readings of some
  * observed variable at a location.
@@ -8,7 +10,7 @@ package bms.sensors;
  * depending on the concrete sensor type.
  * @ass1
  */
-public interface Sensor {
+public interface Sensor extends Encodable {
     /**
      * Returns the current sensor reading observed by the sensor.
      *
