@@ -1,15 +1,14 @@
 package bms.floor;
 
 import bms.exceptions.DuplicateRoomException;
+import bms.exceptions.FloorTooSmallException;
 import bms.exceptions.InsufficientSpaceException;
 import bms.room.Room;
 import bms.room.RoomType;
 import bms.util.Encodable;
 import bms.util.FireDrill;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a floor of a building.
@@ -54,6 +53,11 @@ public class Floor implements FireDrill,Encodable {
     private static final int MIN_LENGTH = 5;
 
     /**
+     * Maintenance Schedule of the floor
+     */
+    private MaintenanceSchedule maintenanceSchedule;
+
+    /**
      * Creates a new floor with the given floor number.
      *
      * @param floorNumber a unique floor number, corresponds to how many floors
@@ -68,6 +72,9 @@ public class Floor implements FireDrill,Encodable {
         this.length = length;
 
         this.rooms = new ArrayList<>();
+
+        // Defaults to Null
+        maintenanceSchedule = null;
     }
 
     /**
@@ -255,6 +262,203 @@ public class Floor implements FireDrill,Encodable {
             r.setFireDrill(false);
         }
     }
+
+    /**
+     * Returns the floor's maintenance schedule, or null if it does not exist.
+     * @return maintenance schedule
+     */
+    public MaintenanceSchedule getMaintenanceSchedule(){
+        return maintenanceSchedule;
+    }
+
+
+    /**
+     * Changes the width and length of this floor.
+     *
+     * @param newWidth  new width dimension for the floor
+     * @param newLength new length dimension for the floor
+     * @throws IllegalArgumentException if newWidth < Floor.getMinWidth(); or newLength < Floor.getMinLength()
+     * @throws FloorTooSmallException if the total size of the current rooms could not be supported
+     *                                  by decreased dimensions
+     */
+    public void changeDimensions(double newWidth,
+                                  double newLength)
+            throws IllegalArgumentException,
+            FloorTooSmallException {
+        if(newWidth < Floor.getMinWidth() || newLength < Floor.getMinLength()){
+            throw new IllegalArgumentException("The new dimensions must be greater than or equal to the minimum width and length for all floors!");
+        }
+        double result = newWidth * newLength;
+        if (result < this.occupiedArea()){
+            throw new FloorTooSmallException("The total size of the current rooms could not be supported by decreased dimensions");
+        }
+
+        this.width = newWidth;
+        this.length = newLength;
+    }
+
+    /**
+     * Adds a maintenance schedule to this floor with the given room order.
+     * Maintenance will be undertaken on rooms on the floor in the given order,
+     * with maintenance wrapping back to the start of the order once all the rooms
+     * in the order have been visited.
+     *
+     * @param roomOrder rooms on which to perform maintenance, in order
+     * @throws IllegalArgumentException if the given order is null or empty, if a room
+     * in the order is not on this floor, or if a room appears twice or more consecutively
+     * (the start of the list and the end of the list are also considered consecutive)
+     * in an order with at least two rooms.
+     */
+    public void createMaintenanceSchedule(List<Room> roomOrder)
+            throws IllegalArgumentException{
+
+        if (roomOrder == null || roomOrder.isEmpty()){
+            throw new IllegalArgumentException("The given room order must not be null and must contain at least one room.");
+        }
+//        if (!this.getRooms().containsAll(roomOrder)){
+//            throw new IllegalArgumentException("All rooms in the given order must be rooms on this floor");
+//        }
+
+        for (Room room:roomOrder) {
+            if (!this.getRooms().contains(room)){
+                throw new IllegalArgumentException("All rooms in the given order must be rooms on this floor");
+            }
+        }
+
+
+        for (int i = 0; i < roomOrder.size(); i++) {
+            Room prevRoom;
+            if (i+1 < roomOrder.size()){
+                if (roomOrder.get(i).equals(roomOrder.get(i+1))){
+                    throw new IllegalArgumentException("Cannot contain the same room twice or more consecutively");
+                }else {
+                    prevRoom = roomOrder.get(i);
+                }
+            }else{
+                prevRoom = roomOrder.get(i);
+                if (roomOrder.get(0).equals(prevRoom)){
+                    throw new IllegalArgumentException("Cannot contain the same room twice or more consecutively");
+                }
+            }
+
+        }
+
+        this.maintenanceSchedule = new MaintenanceSchedule(roomOrder);
+
+    }
+
+    /**
+     * Returns a hash code value for the object. This method is
+     * supported for the benefit of hash tables such as those provided by
+     * {@link HashMap}.
+     * <p>
+     * The general contract of {@code hashCode} is:
+     * <ul>
+     * <li>Whenever it is invoked on the same object more than once during
+     *     an execution of a Java application, the {@code hashCode} method
+     *     must consistently return the same integer, provided no information
+     *     used in {@code equals} comparisons on the object is modified.
+     *     This integer need not remain consistent from one execution of an
+     *     application to another execution of the same application.
+     * <li>If two objects are equal according to the {@code equals(Object)}
+     *     method, then calling the {@code hashCode} method on each of
+     *     the two objects must produce the same integer result.
+     * <li>It is <em>not</em> required that if two objects are unequal
+     *     according to the {@link Object#equals(Object)}
+     *     method, then calling the {@code hashCode} method on each of the
+     *     two objects must produce distinct integer results.  However, the
+     *     programmer should be aware that producing distinct integer results
+     *     for unequal objects may improve the performance of hash tables.
+     * </ul>
+     *
+     * @return a hash code value for this object.
+     * @implSpec As far as is reasonably practical, the {@code hashCode} method defined
+     * by class {@code Object} returns distinct integers for distinct objects.
+     * @see Object#equals(Object)
+     * @see System#identityHashCode
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(floorNumber, rooms, width, length);
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     * <p>
+     * The {@code equals} method implements an equivalence relation
+     * on non-null object references:
+     * <ul>
+     * <li>It is <i>reflexive</i>: for any non-null reference value
+     *     {@code x}, {@code x.equals(x)} should return
+     *     {@code true}.
+     * <li>It is <i>symmetric</i>: for any non-null reference values
+     *     {@code x} and {@code y}, {@code x.equals(y)}
+     *     should return {@code true} if and only if
+     *     {@code y.equals(x)} returns {@code true}.
+     * <li>It is <i>transitive</i>: for any non-null reference values
+     *     {@code x}, {@code y}, and {@code z}, if
+     *     {@code x.equals(y)} returns {@code true} and
+     *     {@code y.equals(z)} returns {@code true}, then
+     *     {@code x.equals(z)} should return {@code true}.
+     * <li>It is <i>consistent</i>: for any non-null reference values
+     *     {@code x} and {@code y}, multiple invocations of
+     *     {@code x.equals(y)} consistently return {@code true}
+     *     or consistently return {@code false}, provided no
+     *     information used in {@code equals} comparisons on the
+     *     objects is modified.
+     * <li>For any non-null reference value {@code x},
+     *     {@code x.equals(null)} should return {@code false}.
+     * </ul>
+     * <p>
+     * The {@code equals} method for class {@code Object} implements
+     * the most discriminating possible equivalence relation on objects;
+     * that is, for any non-null reference values {@code x} and
+     * {@code y}, this method returns {@code true} if and only
+     * if {@code x} and {@code y} refer to the same object
+     * ({@code x == y} has the value {@code true}).
+     * <p>
+     * Note that it is generally necessary to override the {@code hashCode}
+     * method whenever this method is overridden, so as to maintain the
+     * general contract for the {@code hashCode} method, which states
+     * that equal objects must have equal hash codes.
+     *
+     * @param obj the reference object with which to compare.
+     * @return {@code true} if this object is the same as the obj
+     * argument; {@code false} otherwise.
+     * @see #hashCode()
+     * @see HashMap
+     */
+    @Override
+    public boolean equals(Object obj) {
+        // self check
+        if (this == obj)
+            return true;
+        // null check
+        if (obj == null)
+            return false;
+        // type check and cast
+        if (getClass() != obj.getClass())
+            return false;
+        Floor floor = (Floor) obj;
+        // field comparison
+        return Objects.equals(this.floorNumber, floor.floorNumber)
+                && Objects.equals(this.length, floor.getLength())
+                && Objects.equals(this.width, floor.getWidth())
+                && Objects.equals(this.getRooms().size(), floor.getRooms().size())
+                && Objects.equals(this.getRooms(), floor.getRooms());
+    }
+
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Floor floor = (Floor) o;
+//        return floorNumber == floor.floorNumber &&
+//                Double.compare(floor.width, width) == 0 &&
+//                Double.compare(floor.length, length) == 0 &&
+//                Objects.equals(rooms, floor.rooms);
+//    }
 
     /**
      * Returns the human-readable string representation of this floor.
