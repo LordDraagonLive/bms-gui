@@ -1,6 +1,7 @@
 package bms.util;
 
 import bms.building.Building;
+import bms.floor.Floor;
 import bms.room.Room;
 
 /**
@@ -18,5 +19,12 @@ public class StudyRoomRecommender {
      */
     public static Room recommendStudyRoom(Building building){
         // Incomplete
+
+
+
+
+        var floors = building.getFloors();
+//        var rooms =floors.forEach(floor -> return floor.getRooms());
+        return floors.get(1).getRooms().get(1);
     }
 }

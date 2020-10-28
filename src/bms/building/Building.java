@@ -12,6 +12,7 @@ import bms.util.FireDrill;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a building of floors, which in turn, contain rooms.
@@ -144,6 +145,50 @@ public class Building implements FireDrill, Encodable {
     }
 
     /**
+     * Renovate the given floor by changing the width and length.
+     *
+     * @param floorNumber the floor which is to be renovated
+     * @param newWidth the new width dimension for the floor
+     * @param newLength the new length dimension for the floor
+     * @throws IllegalArgumentException if the given floor does not exist (i.e. getFloorByNumber() is null),
+     * or if newWidth < Floor.getMinWidth(), or newLength < Floor.getMinLength()
+     * @throws FloorTooSmallException if the floor below is too small to support increased dimensions,
+     * if the floor above is too large to be supported by decreased dimensions,
+     * or if the total size of the current rooms could not be supported by decreased dimensions
+     */
+    public void renovateFloor(int floorNumber,
+                               double newWidth,
+                               double newLength)
+            throws IllegalArgumentException,
+            FloorTooSmallException{
+
+        var floorToEdit = this.getFloorByNumber(floorNumber);
+
+        if (floorToEdit == null || newWidth < Floor.getMinWidth() || newLength < Floor.getMinLength()) {
+            throw new IllegalArgumentException("Given floor does not exist!");
+        }
+
+        Floor floorBelow = this.getFloorByNumber(floorNumber - 1);
+
+        if (floorNumber >= 2 && (floorToEdit.getWidth() > floorBelow.getWidth()
+                || floorToEdit.getLength() > floorBelow.getLength())) {
+            throw new FloorTooSmallException("The floor below does not "
+                    + "have enough area to support this floor. ");
+        }
+
+        Floor floorAbove = this.getFloorByNumber(floorNumber + 1);
+
+        if (floorAbove != null && floorToEdit.getWidth() < floorAbove.getWidth() ||
+            floorToEdit.getLength() < floorAbove.getLength()) {
+            throw new FloorTooSmallException("The floor below does not "
+                    + "have enough area to support this floor. ");
+        }
+
+        floorToEdit.changeDimensions(newWidth, newLength);
+
+    }
+
+    /**
      * Start a fire drill in all rooms of the given type in the building.
      * Only rooms of the given type must start a fire alarm.
      * Rooms other than the given type must not start a fire alarm.
@@ -193,6 +238,21 @@ public class Building implements FireDrill, Encodable {
         for (Floor floor : this.floors) {
             floor.cancelFireDrill();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Building building = (Building) o;
+        return name.equals(building.name) &&
+                Objects.equals(floors.size(), building.floors.size()) &&
+                Objects.equals(floors, building.floors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, floors);
     }
 
     /**
