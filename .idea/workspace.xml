@@ -25,11 +25,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64075b64-1985-4741-a8d8-905ed47ff2ad" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="64075b64-1985-4741-a8d8-905ed47ff2ad" name="Default Changelist" comment="Added tostring functions and added file loading parts to BuildingInitialiser.java">
       <change beforePath="$PROJECT_DIR$/src/bms/building/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/building/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/building/BuildingInitialiser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/building/BuildingInitialiser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bms/floor/Floor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/floor/Floor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bms/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/room/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bms/sensors/CarbonDioxideSensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/CarbonDioxideSensor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bms/sensors/OccupancySensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/bms/sensors/OccupancySensor.java" afterDir="false" />
@@ -106,7 +103,7 @@
       <workItem from="1603715885919" duration="5366000" />
       <workItem from="1603803808220" duration="799000" />
       <workItem from="1603806026437" duration="5567000" />
-      <workItem from="1603854716947" duration="9428000" />
+      <workItem from="1603854716947" duration="9820000" />
     </task>
     <task id="LOCAL-00001" summary="Added Missing functions">
       <created>1603120174779</created>
@@ -122,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603245577607</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added tostring functions and added file loading parts to BuildingInitialiser.java">
+      <created>1603866334793</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603866334793</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,10 +186,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="249" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1602686846538" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1603245626644">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1603866352051">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1603245626644" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1603866352051" />
     <state x="479" y="11" width="578" height="801" key="find.popup" timestamp="1603808159377">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

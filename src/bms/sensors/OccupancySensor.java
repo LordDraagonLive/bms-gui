@@ -1,6 +1,8 @@
 package bms.sensors;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * A sensor that measures the number of people in a room.
@@ -11,6 +13,8 @@ public class OccupancySensor extends TimedSensor implements HazardSensor, Comfor
      * Maximum capacity of the space the sensor is monitoring.
      */
     private int capacity;
+
+    private int[] sensorReadings;
 
     /**
      * Creates a new occupancy sensor with the given sensor readings, update
@@ -34,6 +38,7 @@ public class OccupancySensor extends TimedSensor implements HazardSensor, Comfor
         }
 
         this.capacity = capacity;
+        this.sensorReadings = sensorReadings;
     }
 
     /**
@@ -124,7 +129,9 @@ public class OccupancySensor extends TimedSensor implements HazardSensor, Comfor
      */
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = Objects.hash(super.hashCode(), capacity);
+        result = 31 * result + Arrays.hashCode(sensorReadings);
+        return result;
     }
 
     /**
@@ -167,16 +174,23 @@ public class OccupancySensor extends TimedSensor implements HazardSensor, Comfor
      * general contract for the {@code hashCode} method, which states
      * that equal objects must have equal hash codes.
      *
-     * @param obj the reference object with which to compare.
+     * @param o the reference object with which to compare.
      * @return {@code true} if this object is the same as the obj
      * argument; {@code false} otherwise.
      * @see #hashCode()
      * @see HashMap
      */
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        OccupancySensor that = (OccupancySensor) o;
+        return capacity == that.capacity &&
+                getUpdateFrequency() == that.getUpdateFrequency() &&
+                Arrays.equals(sensorReadings, that.sensorReadings);
     }
+
 
     /**
      * Returns the String representation of the current state of this object.

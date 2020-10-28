@@ -6,6 +6,7 @@ import bms.util.TimedItemManager;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * An abstract class to represent a sensor that iterates through observed values
@@ -180,7 +181,9 @@ public abstract class TimedSensor implements TimedItem, Sensor, Encodable {
      */
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = Objects.hash(updateFrequency);
+        result = 31 * result + Arrays.hashCode(sensorReadings);
+        return result;
     }
 
     /**
@@ -223,15 +226,19 @@ public abstract class TimedSensor implements TimedItem, Sensor, Encodable {
      * general contract for the {@code hashCode} method, which states
      * that equal objects must have equal hash codes.
      *
-     * @param obj the reference object with which to compare.
+     * @param o the reference object with which to compare.
      * @return {@code true} if this object is the same as the obj
      * argument; {@code false} otherwise.
      * @see #hashCode()
      * @see HashMap
      */
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimedSensor that = (TimedSensor) o;
+        return updateFrequency == that.updateFrequency &&
+                Arrays.equals(sensorReadings, that.sensorReadings);
     }
 
     /**

@@ -2,6 +2,7 @@ package bms.sensors;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * A sensor that measures levels of carbon dioxide (CO2) in the air, in parts
@@ -21,6 +22,8 @@ public class CarbonDioxideSensor extends TimedSensor implements HazardSensor, Co
      * ideal value.
      */
     private int variationLimit;
+
+    private int[] sensorReadings;
 
     /**
      * Creates a new carbon dioxide sensor with the given sensor readings,
@@ -65,6 +68,7 @@ public class CarbonDioxideSensor extends TimedSensor implements HazardSensor, Co
 
         this.idealValue = idealValue;
         this.variationLimit = variationLimit;
+        this.sensorReadings = sensorReadings;
     }
 
     /**
@@ -173,7 +177,9 @@ public class CarbonDioxideSensor extends TimedSensor implements HazardSensor, Co
      */
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = Objects.hash(super.hashCode(), idealValue, variationLimit);
+        result = 31 * result + Arrays.hashCode(sensorReadings);
+        return result;
     }
 
     /**
@@ -216,16 +222,24 @@ public class CarbonDioxideSensor extends TimedSensor implements HazardSensor, Co
      * general contract for the {@code hashCode} method, which states
      * that equal objects must have equal hash codes.
      *
-     * @param obj the reference object with which to compare.
+     * @param o the reference object with which to compare.
      * @return {@code true} if this object is the same as the obj
      * argument; {@code false} otherwise.
      * @see #hashCode()
      * @see HashMap
      */
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        CarbonDioxideSensor that = (CarbonDioxideSensor) o;
+        return idealValue == that.idealValue &&
+                variationLimit == that.variationLimit &&
+                getUpdateFrequency() == that.getUpdateFrequency() &&
+                Arrays.equals(sensorReadings, that.sensorReadings);
     }
+
 
     /**
      * Returns the String representation of the current state of this object.
